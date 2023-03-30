@@ -6,6 +6,7 @@ using DogGo.Repositories;
 using System;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using System.Linq;
 
 namespace DogGo.Controllers
 {
@@ -58,8 +59,11 @@ namespace DogGo.Controllers
 		// GET: DogsController/Edit/5
 		public ActionResult Edit(int id)
 		{
+			int ownerId = GetCurrentUserId();
 			Dog dog = _dogRepo.GetDogById(id);
-			if (dog == null)
+
+			
+			if (dog == null || ownerId != dog.OwnerId)
 			{
 				return NotFound();
 			}
@@ -87,7 +91,12 @@ namespace DogGo.Controllers
 		// GET: DogsController/Delete/5
 		public ActionResult Delete(int id)
 		{
+			int ownerId = GetCurrentUserId();
 			Dog dog = _dogRepo.GetDogById(id);
+			if (ownerId != dog.OwnerId)
+			{
+				return NotFound();
+			}
 			return View(dog);
 		}
 
