@@ -2,6 +2,7 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DogGo.Repositories
 {
@@ -159,7 +160,7 @@ namespace DogGo.Repositories
 							{
 								Id = reader.GetInt32(reader.GetOrdinal("Id")),
 								Date = reader.GetDateTime(reader.GetOrdinal("Date")),
-								Duration = reader.GetInt32(reader.GetOrdinal("Duration")),
+								Duration = reader.GetInt32(reader.GetOrdinal("Duration")) / 60,
 								WalkerId = reader.GetInt32(reader.GetOrdinal("WalkerId")),
 								Owner = new Owner()
 								{
@@ -177,6 +178,12 @@ namespace DogGo.Repositories
 					}
 				}
 			}
+		}
+
+		public int GetWalkTimeByWalkerId(int id)
+		{
+			List<Walk> walks = GetWalksByWalkerId(id);
+			return walks.Sum(walk => walk.Duration);
 		}
 	}
 }

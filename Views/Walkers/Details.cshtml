@@ -3,57 +3,22 @@
 @{
 	ViewData["Title"] = "Details";
 }
-
-@*<h1>Details</h1>
-
 <div>
-    <h4>Walker</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Walker.Id)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Walker.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Walker.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Walker.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Walker.NeighborhoodId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Walker.NeighborhoodId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Walker.ImageUrl)
-        </dt>
-        <dd class = "col-sm-10">
-            <img class="bg-info" src="@Model.Walker.ImageUrl" alt="avatar" />
-        </dd>
-    </dl>
-</div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
-</div>*@
-
-
-@{
-	ViewData["Title"] = "Details";
-}
-<div>
-	<h1 class="mb-4">@Model.Walker.Name</h1>
+	<h1 class="mb-4">Walker Profile</h1>
 
 	<section class="container">
 		<img style="width:100px;float:left;margin-right:20px"
-			 src="https://upload.wikimedia.org/wikipedia/commons/a/a0/Font_Awesome_5_regular_user-circle.svg" />
+			 src=@Model.Walker.ImageUrl />
 		<div>
-			<label class="font-weight-bold">Neighborhood:</label>
-			<span>@Model.Walker.Neighborhood.Name</span>
+			<div>
+				<label class="font-weight-bold">Name:</label>
+				<span>@Model.Walker.Name</span>
+			</div>
+			<div>
+				<label class="font-weight-bold">Neighborhood:</label>
+				<span>@Model.Walker.Neighborhood.Name</span>
+			</div>
+
 		</div>
 
 
@@ -65,42 +30,57 @@
 	<div class="row">
 		<section class="col-8 container mt-5">
 			<h1 class="text-left">Recent Walks</h1>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>
+							Date
+						</th>
+						<th>
+							Client
+						</th>
+						<th>
+							Duration
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var walk in Model.Walks)
+					{
+						<tr>
+							<td>
+								@Html.DisplayFor(modelItem => walk.Date)
+							</td>
+							<td>
+								@Html.DisplayFor(modelItem => walk.Owner.Name)
+							</td>
+							<td>
+								@{
+									int allMinutes = walk.Duration;
+									int hours = allMinutes / 60;
+									int minutes = allMinutes % 60;
+								}
+								@hours hours
+								@minutes minutes
+							</td>
+						</tr>
+					}
 
-			<div class="row">
-				@foreach (Walk walk in Model.Walks)
-				{
-					<div class="card m-4" style="width: 18rem;">
-						<div class="card-body">
-							<div>
-								<label class="font-weight-bold">Date:</label>
-								<span>@walk.Date</span>
-							</div>
-							<div>
-								<label class="font-weight-bold">Client:</label>
-								<span>@walk.Owner.Name</span>
-							</div>
-							<div>
-								<label class="font-weight-bold">Duration:</label>
-								<p>@walk.Duration</p>
-							</div>
-						</div>
-					</div>
-				}
-			</div>
+				</tbody>
+			</table>
+
 		</section>
 
 		<section class="col-lg-4 col-md-8 container mt-5">
-			<h1>Walkers Near Me</h1>
+			<h1>Total Walk Time</h1>
+			@{
+				int totalWalkMinutes = Model.WalkTime;
+				int totalHours = totalWalkMinutes / 60;
+				int totalMinutes = totalWalkMinutes % 60;
+			}
+			<h3>@totalHours hour @totalMinutes minutes</h3>
 
-			<ul class="list-group mt-4">
-				@*@foreach (Walker walker in Model.Walkers)
-				{
-					<li class="list-group-item disabled" aria-disabled="true">
-						<img src="@walker.ImageUrl" style="width:50px" />
-						<span class="font-weight-bold ml-4">@walker.Name</span>
-					</li>
-				}*@
-			</ul>
+
 		</section>
 	</div>
 </div>

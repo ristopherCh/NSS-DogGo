@@ -35,11 +35,14 @@ namespace DogGo.Controllers
 		{
 			Walker walker = _walkerRepo.GetWalkerById(id);
 			List<Walk> walks = _walkerRepo.GetWalksByWalkerId(id);
+			int walkingTime = _walkerRepo.GetWalkTimeByWalkerId(id);
+
 
 			WalkerViewModel vm = new WalkerViewModel()
 			{
 				Walker = walker,
-				Walks = walks
+				Walks = walks,
+				WalkTime = walkingTime
 			};
 
 			if (walker == null)
