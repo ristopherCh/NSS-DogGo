@@ -13,5 +13,6 @@ namespace DogGo.Models
 		public int WalkerId { get; set; }
 		public Owner Owner { get; set; }
 		public Dog Dog { get; set; }
+		public List<Dog> Dogs { get; set; }
 	}
 }

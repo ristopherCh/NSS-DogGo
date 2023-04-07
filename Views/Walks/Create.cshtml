@@ -1,4 +1,4 @@
-﻿@model DogGo.Models.Walk
+﻿@model DogGo.Models.ViewModels.WalkViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -13,24 +13,24 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" />
-                <span asp-validation-for="Id" class="text-danger"></span>
+                <label asp-for="walk.Date" class="control-label"></label>
+                <input asp-for="walk.Date" class="form-control" />
+                <span asp-validation-for="walk.Date" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" />
-                <span asp-validation-for="Date" class="text-danger"></span>
+                <label asp-for="walk.Duration" class="control-label"></label>
+                <input asp-for="walk.Duration" class="form-control" />
+                <span asp-validation-for="walk.Duration" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Duration" class="control-label"></label>
-                <input asp-for="Duration" class="form-control" />
-                <span asp-validation-for="Duration" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="WalkerId" class="control-label"></label>
-                <input asp-for="WalkerId" class="form-control" />
-                <span asp-validation-for="WalkerId" class="text-danger"></span>
+                <label for="Dogs.Id">Select options:</label>
+                <select multiple class="form-control" id="Dogs.Id">
+                    @foreach (Dog dog in Model.dogs)
+                    {
+                        <option value="1">@dog.DogName</option>
+                    }
+                    
+                </select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
